@@ -1,37 +1,42 @@
+<script setup>
+import { computed } from 'vue'
+import { cart } from './cart'
+const count = computed(() => cart.reduce((n, p) => n + p.count, 0))
+</script>
 <template>
-  <nav class="search-bar-background-color">
-    <router-link to="/addproduct" style="color: wheat">Add Product</router-link>
-    ||| <router-link to="/" style="color: wheat">Home</router-link> |||
-    <router-link to="/products" style="color: wheat">Products</router-link> |||
-    <router-link to="/card" style="color: wheat">Card</router-link>
-  </nav>
-  <router-view />
+  <a class="skip" href="#main">Skip to content</a>
+  <div class="announcement">
+    Thoughtful finds. Everyday favourites. <span>— A portfolio store demo</span>
+  </div>
+  <header class="site-header">
+    <router-link class="brand" to="/" aria-label="Form and Field home"
+      ><span class="brand-mark">f.</span>form & field<span class="brand-dot"
+        >®</span
+      ></router-link
+    >
+    <nav aria-label="Main navigation">
+      <router-link to="/">Collection</router-link
+      ><router-link to="/addproduct"
+        >Add product <span aria-hidden="true">↗</span></router-link
+      ><router-link to="/cart" class="cart-link"
+        >Bag <span class="count">{{ count }}</span></router-link
+      >
+    </nav>
+  </header>
+  <main id="main" tabindex="-1"><router-view /></main>
+  <footer class="site-footer">
+    <div>
+      <router-link to="/" class="brand">form & field.</router-link>
+      <p>Good things for the everyday.</p>
+    </div>
+    <p>
+      Designed to explore. Built to learn.<br /><small
+        >Vue + Node + PostgreSQL · No real payments</small
+      >
+    </p>
+    <a href="#main">Back to top ↑</a>
+  </footer>
 </template>
-
 <style>
-html,
-body {
-  padding: 0;
-  margin: 0;
-  overflow-x: hidden;
-  font-family: sans-serif;
-}
-
-.search-bar-background-color {
-  background: #24c6dc; /* fallback for old browsers */
-  background: -webkit-linear-gradient(
-    to right,
-    #514a9d,
-    #24c6dc
-  ); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(
-    to right,
-    #514a9d,
-    #24c6dc
-  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
-  color: wheat;
-
-  padding: 0.3rem;
-}
+@import './style.css';
 </style>

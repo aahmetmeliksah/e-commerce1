@@ -1,137 +1,119 @@
-<template>
-  <div
-    class="drawer-background drawer-close"
-    :class="{ show: active }"
-    @click="$emit('close-product-drawer')"
-  ></div>
-
-  <!-- DRAWER STARTS HERE -->
-  <!-- ADD IMAGE, PRICE, CATEGORY BASICALLY ALL THE DETAILS -->
-
-  <div class="drawer" :class="{ show: active }">
-    <div class="drawer-close" @click="$emit('close-product-drawer')">X</div>
-
-    <div class="product-details" v-if="product">
-      <h3>PRODUCT : {{ product.product_name }}</h3>
-      <hr />
-      <h3>ID : {{ product.id }}</h3>
-      <hr />
-      <h3>Category : {{ product.category_name }}</h3>
-      <hr />
-      <h3>Category ID : {{ product.category_id }}</h3>
-      <hr />
-      <p class="description">{{ product.product_description }}</p>
-      <hr />
-      <p class="description">${{ product.price }}</p>
-    </div>
-
-    <div class="product-details" v-if="product">
-      <button class="btn btn-danger" @click="removeProduct">
-        Remove Product
-      </button>
-    </div>
-  </div>
-</template>
-
-<script>
-import axios from 'axios'
-
-export default {
-  props: ['product', 'active'],
-
-  methods: {
-    async removeProduct() {
-      // console.log(this.product.id)
-      if (confirm('Are you sure you want to remove this product?')) {
-        try {
-          await axios.delete(
-            `http://localhost:5000/products/${this.product.id}`,
-            this.product
-          )
-
-          this.$router.push('/') // redirect to home page
-        } catch (error) {
-          console.log(error)
-        }
-      }
-    },
-  },
+<script setup>
+import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { api, money } from '../api'
+import { addToCart } from '../cart'
+const props = defineProps({ product: Object })
+const emit = defineEmits(['close', 'removed'])
+const dialog = ref(null),
+  busy = ref(false),
+  error = ref(''),
+  message = ref(''),
+  confirming = ref(false)
+let previous
+onMounted(() => {
+  previous = document.activeElement
+  dialog.value.showModal()
+  document.body.style.overflow = 'hidden'
+})
+onBeforeUnmount(() => {
+  document.body.style.overflow = ''
+  previous?.focus()
+})
+function add() {
+  message.value = addToCart(props.product)
+    ? 'Added to your bag.'
+    : 'All available stock is already in your bag.'
+}
+async function remove() {
+  busy.value = true
+  error.value = ''
+  try {
+    await api('/products/' + props.product.id, { method: 'DELETE' })
+    emit('removed', props.product.id)
+  } catch (e) {
+    error.value = e.message
+  } finally {
+    busy.value = false
+  }
 }
 </script>
-
-<style lang="scss">
-.drawer-background {
-  z-index: 100;
-  display: none;
-  transition: display 0.5s;
-  width: 100%;
-  height: 100vh;
-  position: fixed;
-  left: 0;
-  top: 0;
-
-  &.show {
-    display: block;
-  }
-}
-
-.drawer {
-  overflow-y: scroll;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgb(228, 216, 228);
-  position: fixed;
-  top: 0;
-  left: -105vw;
-  padding: 1rem;
-  transition: left 0.5s;
-  z-index: 101;
-  text-align: center;
-
-  &.show {
-    left: 0;
-  }
-}
-
-.drawer-close {
-  font-size: 1.5rem;
-  padding: 5px;
-  border-radius: 5px;
-  right: 10px;
-  cursor: pointer;
-  border: 2px solid gray;
-  color: gray;
-  width: 3rem;
-  float: right;
-  box-shadow: 2px 2px 2px 3px #696868;
-
-  &:hover {
-    background-color: lightblue;
-    box-shadow: 2px 2px 2px 3px #545ee2;
-    transition: 0.3s;
-    color: rgb(218, 25, 25);
-  }
-}
-
-.product-details {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-
-  p.description {
-    padding: 20px;
-    line-height: 1.5rem;
-  }
-
-  .button-container {
-    button {
-      width: 150px;
-      border: none;
-      padding: 10px;
-      border-radius: 5px;
-      margin: 0 5px 50px 5px;
-      cursor: pointer;
-    }
-  }
-}
-</style>
+<template>
+  <dialog
+    ref="dialog"
+    class="product-dialog"
+    aria-labelledby="product-title"
+    @cancel.prevent="!busy && emit('close')"
+    @click="!busy && $event.target === dialog && emit('close')"
+  >
+    <div class="dialog-inner">
+      <button
+        class="close-button"
+        :disabled="busy"
+        aria-label="Close product details"
+        @click="emit('close')"
+      >
+        ×
+      </button>
+      <div class="detail-art">
+        <img
+          :src="product.img_url || '/images/placeholder.svg'"
+          :alt="product.product_name"
+          @error="$event.target.src = '/images/placeholder.svg'"
+        />
+      </div>
+      <div class="detail-copy">
+        <p class="eyebrow">{{ product.category_name }}</p>
+        <h2 id="product-title">{{ product.product_name }}</h2>
+        <p class="detail-price">{{ money(product.price) }}</p>
+        <p class="description">{{ product.product_description }}</p>
+        <p class="availability">
+          <span></span
+          >{{
+            Number(product.quantity)
+              ? product.quantity + ' in stock'
+              : 'Currently sold out'
+          }}
+        </p>
+        <button
+          class="button full"
+          :disabled="!Number(product.quantity) || busy"
+          @click="add"
+        >
+          {{ Number(product.quantity) ? 'Add to bag +' : 'Sold out' }}
+        </button>
+        <p v-if="message" class="notice" role="status">
+          {{ message }}
+          <router-link to="/cart" @click="emit('close')"
+            >View bag →</router-link
+          >
+        </p>
+        <div class="management">
+          <span>Manage this product</span
+          ><router-link
+            :to="'/products/' + product.id + '/edit'"
+            @click="emit('close')"
+            >Edit</router-link
+          ><button :disabled="busy" @click="confirming = true">Delete</button>
+        </div>
+        <div v-if="confirming" class="delete-confirm">
+          <p>
+            <strong>Delete this product?</strong><br />This removes it from the
+            collection and cannot be undone.
+          </p>
+          <div class="button-row">
+            <button class="button danger" :disabled="busy" @click="remove">
+              {{ busy ? 'Deleting…' : 'Delete product' }}</button
+            ><button
+              class="button secondary"
+              :disabled="busy"
+              @click="confirming = false"
+            >
+              Keep product
+            </button>
+          </div>
+        </div>
+        <p v-if="error" class="error" role="alert">{{ error }}</p>
+      </div>
+    </div>
+  </dialog>
+</template>
