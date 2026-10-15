@@ -9,4 +9,20 @@ CREATE TABLE IF NOT EXISTS products (
  img_url TEXT NOT NULL DEFAULT ''
 );
 ALTER TABLE products ADD COLUMN IF NOT EXISTS img_url TEXT NOT NULL DEFAULT '';
+CREATE TABLE IF NOT EXISTS categories (
+ id SERIAL PRIMARY KEY,
+ name VARCHAR(150) NOT NULL UNIQUE
+);
+INSERT INTO categories (name)
+ SELECT DISTINCT category_name FROM products
+ ON CONFLICT (name) DO NOTHING;
+UPDATE products p SET category_id=c.id FROM categories c WHERE c.name=p.category_name AND p.category_id<>c.id;
+DO $$ BEGIN
+ IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname='products_category_fk') THEN
+  ALTER TABLE products ADD CONSTRAINT products_category_fk FOREIGN KEY (category_id) REFERENCES categories(id);
+ END IF;
+END $$;
+ALTER TABLE products ADD COLUMN IF NOT EXISTS demo_key TEXT;
+CREATE UNIQUE INDEX IF NOT EXISTS products_demo_key ON products (demo_key);
+CREATE TABLE IF NOT EXISTS app_migrations (version TEXT PRIMARY KEY);
 

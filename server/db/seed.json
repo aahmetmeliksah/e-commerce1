@@ -6,7 +6,8 @@
     "category_id": 1,
     "price": 89,
     "quantity": 18,
-    "img_url": "/images/headphones.svg"
+    "img_url": "/images/original-1.jpg",
+    "demo_key": "original-1"
   },
   {
     "product_name": "Everyday Tote",
@@ -15,7 +16,8 @@
     "category_id": 2,
     "price": 24,
     "quantity": 32,
-    "img_url": "/images/tote.svg"
+    "img_url": "/images/original-2.jpg",
+    "demo_key": "original-2"
   },
   {
     "product_name": "Studio Lamp",
@@ -24,7 +26,8 @@
     "category_id": 3,
     "price": 64,
     "quantity": 9,
-    "img_url": "/images/lamp.svg"
+    "img_url": "/images/original-3.jpg",
+    "demo_key": "original-3"
   },
   {
     "product_name": "Trail Bottle",
@@ -33,7 +36,8 @@
     "category_id": 4,
     "price": 28,
     "quantity": 25,
-    "img_url": "/images/bottle.svg"
+    "img_url": "/images/original-4.jpg",
+    "demo_key": "original-4"
   },
   {
     "product_name": "Analog Watch",
@@ -42,7 +46,8 @@
     "category_id": 2,
     "price": 119,
     "quantity": 7,
-    "img_url": "/images/watch.svg"
+    "img_url": "/images/original-5.jpg",
+    "demo_key": "original-5"
   },
   {
     "product_name": "Daily Notebook",
@@ -51,7 +56,8 @@
     "category_id": 5,
     "price": 16,
     "quantity": 40,
-    "img_url": "/images/notebook.svg"
+    "img_url": "/images/original-6.jpg",
+    "demo_key": "original-6"
   },
   {
     "product_name": "Cloud Sneakers",
@@ -60,7 +66,8 @@
     "category_id": 6,
     "price": 79,
     "quantity": 12,
-    "img_url": "/images/sneakers.svg"
+    "img_url": "/images/original-7.jpg",
+    "demo_key": "original-7"
   },
   {
     "product_name": "Pour-over Set",
@@ -69,6 +76,124 @@
     "category_id": 7,
     "price": 48,
     "quantity": 0,
-    "img_url": "/images/coffee.svg"
+    "img_url": "/images/original-8.jpg",
+    "demo_key": "original-8"
+  },
+  {
+    "price": 129.99,
+    "product_name": "Apple Airpods",
+    "category_name": "Electronics",
+    "img_url": "/images/sample-100.webp",
+    "demo_key": "sample-100",
+    "quantity": 12,
+    "product_description": "The Apple Airpods offer a seamless wireless audio experience. With easy pairing, high-quality sound, and Siri integration, they are perfect for on-the-go listening."
+  },
+  {
+    "price": 99.99,
+    "product_name": "Amazon Echo Plus",
+    "category_name": "Electronics",
+    "img_url": "/images/sample-99.webp",
+    "demo_key": "sample-99",
+    "quantity": 12,
+    "product_description": "The Amazon Echo Plus is a smart speaker with built-in Alexa voice control. It features premium sound quality and serves as a hub for controlling smart home devices."
+  },
+  {
+    "price": 89.99,
+    "product_name": "Brown Leather Belt Watch",
+    "category_name": "Accessories",
+    "img_url": "/images/sample-93.webp",
+    "demo_key": "sample-93",
+    "quantity": 12,
+    "product_description": "The Brown Leather Belt Watch is a stylish timepiece with a classic design. Featuring a genuine leather strap and a sleek dial, it adds a touch of sophistication to your look."
+  },
+  {
+    "price": 299.99,
+    "product_name": "Bedside Table African Cherry",
+    "category_name": "Home",
+    "img_url": "/images/sample-13.webp",
+    "demo_key": "sample-13",
+    "quantity": 12,
+    "product_description": "The Bedside Table in African Cherry is a stylish and functional addition to your bedroom, providing convenient storage space and a touch of elegance."
+  },
+  {
+    "price": 499.99,
+    "product_name": "Knoll Saarinen Executive Conference Chair",
+    "category_name": "Home",
+    "img_url": "/images/sample-14.webp",
+    "demo_key": "sample-14",
+    "quantity": 12,
+    "product_description": "The Knoll Saarinen Executive Conference Chair is a modern and ergonomic chair, perfect for your office or conference room with its timeless design."
+  },
+  {
+    "price": 17.99,
+    "product_name": "Football",
+    "category_name": "Outdoors",
+    "img_url": "/images/sample-147.webp",
+    "demo_key": "sample-147",
+    "quantity": 12,
+    "product_description": "The Football, also known as a soccer ball, is the standard ball used in the sport of football (soccer). It is designed for kicking and passing in the game."
+  },
+  {
+    "price": 49.99,
+    "product_name": "Tennis Racket",
+    "category_name": "Outdoors",
+    "img_url": "/images/sample-152.webp",
+    "demo_key": "sample-152",
+    "quantity": 12,
+    "product_description": "The Tennis Racket is an essential piece of equipment used in the sport of tennis. It features a frame with strings and a grip, allowing players to hit the tennis ball."
+  },
+  {
+    "price": 89.99,
+    "product_name": "Puma Future Rider Trainers",
+    "category_name": "Footwear",
+    "img_url": "/images/sample-90.webp",
+    "demo_key": "sample-90",
+    "quantity": 12,
+    "product_description": "The Puma Future Rider Trainers offer a blend of retro style and modern comfort. Perfect for casual wear, these trainers provide a fashionable and comfortable option for everyday use."
+  },
+  {
+    "price": 149.99,
+    "product_name": "Nike Air Jordan 1 Red And Black",
+    "category_name": "Footwear",
+    "img_url": "/images/sample-88.webp",
+    "demo_key": "sample-88",
+    "quantity": 12,
+    "product_description": "The Nike Air Jordan 1 in Red and Black is an iconic basketball sneaker known for its stylish design and high-performance features, making it a favorite among sneaker enthusiasts and athletes."
+  },
+  {
+    "price": 12.99,
+    "product_name": "Chopping Board",
+    "category_name": "Kitchen",
+    "img_url": "/images/sample-53.webp",
+    "demo_key": "sample-53",
+    "quantity": 12,
+    "product_description": "The Chopping Board is an essential kitchen accessory for food preparation. Made from durable material, it provides a safe and hygienic surface for cutting and chopping."
+  },
+  {
+    "price": 7.99,
+    "product_name": "Bamboo Spatula",
+    "category_name": "Kitchen",
+    "img_url": "/images/sample-48.webp",
+    "demo_key": "sample-48",
+    "quantity": 12,
+    "product_description": "The Bamboo Spatula is a versatile kitchen tool made from eco-friendly bamboo. Ideal for flipping, stirring, and serving various dishes."
+  },
+  {
+    "price": 12,
+    "product_name": "Pocket Journal",
+    "category_name": "Stationery",
+    "img_url": "/images/pocket-journal.jpg",
+    "demo_key": "pocket-journal",
+    "quantity": 20,
+    "product_description": "A compact journal for daily notes, sketches, and ideas."
+  },
+  {
+    "price": 22,
+    "product_name": "Writing Set",
+    "category_name": "Stationery",
+    "img_url": "/images/writing-set.jpg",
+    "demo_key": "writing-set",
+    "quantity": 20,
+    "product_description": "A thoughtful set for planning your day and getting ideas onto paper."
   }
 ]
