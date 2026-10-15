@@ -1,0 +1,74 @@
+[
+  {
+    "product_name": "Arc Headphones",
+    "product_description": "Comfortable wireless headphones with a balanced sound and soft over-ear cushions.",
+    "category_name": "Electronics",
+    "category_id": 1,
+    "price": 89,
+    "quantity": 18,
+    "img_url": "/images/headphones.svg"
+  },
+  {
+    "product_name": "Everyday Tote",
+    "product_description": "A roomy cotton canvas tote for daily essentials, groceries, and everything in between.",
+    "category_name": "Accessories",
+    "category_id": 2,
+    "price": 24,
+    "quantity": 32,
+    "img_url": "/images/tote.svg"
+  },
+  {
+    "product_name": "Studio Lamp",
+    "product_description": "A sculptural desk lamp with a warm glow, made for focused work and slow evenings.",
+    "category_name": "Home",
+    "category_id": 3,
+    "price": 64,
+    "quantity": 9,
+    "img_url": "/images/lamp.svg"
+  },
+  {
+    "product_name": "Trail Bottle",
+    "product_description": "A reusable insulated bottle that keeps your water cool through the busiest days.",
+    "category_name": "Outdoors",
+    "category_id": 4,
+    "price": 28,
+    "quantity": 25,
+    "img_url": "/images/bottle.svg"
+  },
+  {
+    "product_name": "Analog Watch",
+    "product_description": "A clean, understated watch with an easy-to-read dial and a comfortable strap.",
+    "category_name": "Accessories",
+    "category_id": 2,
+    "price": 119,
+    "quantity": 7,
+    "img_url": "/images/watch.svg"
+  },
+  {
+    "product_name": "Daily Notebook",
+    "product_description": "A lay-flat notebook with smooth dotted pages for ideas, sketches, and plans.",
+    "category_name": "Stationery",
+    "category_id": 5,
+    "price": 16,
+    "quantity": 40,
+    "img_url": "/images/notebook.svg"
+  },
+  {
+    "product_name": "Cloud Sneakers",
+    "product_description": "Lightweight everyday sneakers with a cushioned sole and a versatile neutral finish.",
+    "category_name": "Footwear",
+    "category_id": 6,
+    "price": 79,
+    "quantity": 12,
+    "img_url": "/images/sneakers.svg"
+  },
+  {
+    "product_name": "Pour-over Set",
+    "product_description": "A simple ceramic coffee dripper and server for a slower, more satisfying morning.",
+    "category_name": "Kitchen",
+    "category_id": 7,
+    "price": 48,
+    "quantity": 0,
+    "img_url": "/images/coffee.svg"
+  }
+]
