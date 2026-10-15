@@ -1,7 +1,12 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
 import { api } from '../api'
 import { syncCart } from '../cart'
+import { useAutoAnimate } from '@formkit/auto-animate/vue'
+import { scrollToSection } from '../motion'
+const [grid] = useAutoAnimate({ duration: 320, easing: 'ease-out' })
+const route = useRoute()
 import ProductCardComp from '../components/ProductCardComp.vue'
 import ProductDrawer from '../components/ProductDrawer.vue'
 const products = ref([]),
@@ -55,7 +60,13 @@ function reset() {
   query.value = ''
   category.value = 'All'
 }
-onMounted(load)
+onMounted(() => {
+  if (route.query.saved === 'created')
+    notice.value = 'Product added to the collection.'
+  if (route.query.saved === 'updated')
+    notice.value = 'Product updated successfully.'
+  load()
+})
 </script>
 <template>
   <section class="hero">
@@ -66,18 +77,21 @@ onMounted(load)
         Useful, beautiful essentials for the way you live.<br class="desktop" />
         Find something that feels like you.
       </p>
-      <a class="button" href="#collection"
-        >Explore the collection <span>↘</span></a
-      >
+      <a
+        class="button"
+        href="#collection"
+        @click.prevent="scrollToSection('#collection')"
+        >Explore the collection <AppIcon name="right"
+      /></a>
     </div>
     <div class="hero-art">
       <img
-        src="/images/hero.svg"
-        alt="Illustrated everyday essentials: a lamp, tote, and coffee cup"
+        src="/images/hero-photo.jpg"
+        alt="A sunlit living room with thoughtfully chosen furniture and natural materials"
       /><span class="hero-caption">LESS, BUT BETTER. / VOL. 01</span>
     </div>
   </section>
-  <section id="collection" class="collection">
+  <section id="collection" class="collection" tabindex="-1">
     <div class="section-top">
       <div>
         <p class="eyebrow">CURATED FOR YOUR EVERYDAY</p>
@@ -87,8 +101,7 @@ onMounted(load)
     </div>
     <div class="toolbar">
       <label class="search"
-        ><span aria-hidden="true">⌕</span
-        ><input
+        ><AppIcon name="search" /><input
           v-model="query"
           type="search"
           aria-label="Search products"
@@ -112,7 +125,14 @@ onMounted(load)
         :aria-pressed="category === c"
         @click="category = c"
       >
-        {{ c }}<span v-if="c === 'All'"> {{ products.length }}</span>
+        {{ c
+        }}<span>
+          {{
+            c === 'All'
+              ? products.length
+              : products.filter((p) => p.category_name === c).length
+          }}</span
+        >
       </button>
     </div>
     <p v-if="notice" class="notice" role="status">{{ notice }}</p>
@@ -125,38 +145,42 @@ onMounted(load)
       <button class="button" @click="load">Try again</button>
     </div>
     <template v-else>
-      <p class="results">
+      <p class="results" aria-live="polite">
         {{ filtered.length }} {{ filtered.length === 1 ? 'product' : 'products'
         }}<span v-if="query"> matching “{{ query }}”</span>
       </p>
-      <div v-if="filtered.length" class="product-grid">
+      <div ref="grid" class="product-grid">
         <ProductCardComp
           v-for="p in filtered"
           :key="p.id"
           :product="p"
           @view-product="selected = $event"
         />
-      </div>
-      <div v-else class="empty">
-        <h3>
-          {{
-            products.length
-              ? 'No matches. A fresh start?'
-              : 'Your collection starts here.'
-          }}
-        </h3>
-        <p>
-          {{
-            products.length
-              ? 'Try a different search or category.'
-              : 'Add your first product to bring this space to life.'
-          }}
-        </p>
-        <button v-if="products.length" class="button secondary" @click="reset">
-          Clear filters</button
-        ><router-link v-else class="button" to="/addproduct"
-          >Add a product</router-link
-        >
+        <div v-if="!filtered.length" class="empty grid-empty">
+          <h3>
+            {{
+              products.length
+                ? 'No matches. A fresh start?'
+                : 'Your collection starts here.'
+            }}
+          </h3>
+          <p>
+            {{
+              products.length
+                ? 'Try a different search or category.'
+                : 'Add your first product to bring this space to life.'
+            }}
+          </p>
+          <button
+            v-if="products.length"
+            class="button secondary"
+            @click="reset"
+          >
+            Clear filters</button
+          ><router-link v-else class="button" to="/addproduct"
+            >Add a product</router-link
+          >
+        </div>
       </div>
     </template>
   </section>

@@ -1,4 +1,5 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
-createApp(App).use(router).mount('#app')
+import AppIcon from './components/AppIcon.vue'
+createApp(App).component('AppIcon', AppIcon).use(router).mount('#app')

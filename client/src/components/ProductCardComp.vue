@@ -19,7 +19,9 @@ defineEmits(['view-product'])
         loading="lazy"
         @error="$event.target.src = '/images/placeholder.svg'"
       />
-      <span class="art-action" aria-hidden="true">↗</span>
+      <span class="art-action" aria-hidden="true"
+        ><AppIcon name="external"
+      /></span>
     </button>
     <div class="card-meta">
       <span>{{ product.category_name }}</span

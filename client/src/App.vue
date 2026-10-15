@@ -1,7 +1,17 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, ref, onMounted, onBeforeUnmount } from 'vue'
 import { cart } from './cart'
+import { scrollToSection } from './motion'
 const count = computed(() => cart.reduce((n, p) => n + p.count, 0))
+const showBackTop = ref(false)
+const trackScroll = () => {
+  showBackTop.value = window.scrollY > 600
+}
+onMounted(() => {
+  window.addEventListener('scroll', trackScroll, { passive: true })
+  trackScroll()
+})
+onBeforeUnmount(() => window.removeEventListener('scroll', trackScroll))
 </script>
 <template>
   <a class="skip" href="#main">Skip to content</a>
@@ -17,9 +27,10 @@ const count = computed(() => cart.reduce((n, p) => n + p.count, 0))
     <nav aria-label="Main navigation">
       <router-link to="/">Collection</router-link
       ><router-link to="/addproduct"
-        >Add product <span aria-hidden="true">↗</span></router-link
+        ><AppIcon name="plus" /> Add product</router-link
       ><router-link to="/cart" class="cart-link"
-        >Bag <span class="count">{{ count }}</span></router-link
+        ><AppIcon name="bag" /> Bag
+        <span class="count">{{ count }}</span></router-link
       >
     </nav>
   </header>
@@ -34,8 +45,19 @@ const count = computed(() => cart.reduce((n, p) => n + p.count, 0))
         >Vue + Node + PostgreSQL · No real payments</small
       >
     </p>
-    <a href="#main">Back to top ↑</a>
+    <a href="#main" @click.prevent="scrollToSection('#main')"
+      >Back to top <AppIcon name="up"
+    /></a>
   </footer>
+  <Transition name="backtop"
+    ><button
+      v-if="showBackTop"
+      class="floating-back-top"
+      aria-label="Back to top"
+      @click="scrollToSection('#main')"
+    >
+      <AppIcon name="up" :size="20" /></button
+  ></Transition>
 </template>
 <style>
 @import './style.css';

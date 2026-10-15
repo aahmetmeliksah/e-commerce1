@@ -2,6 +2,7 @@
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { api, money } from '../api'
 import { addToCart } from '../cart'
+import { revealDialog, hideDialog } from '../motion'
 const props = defineProps({ product: Object })
 const emit = defineEmits(['close', 'removed'])
 const dialog = ref(null),
@@ -10,12 +11,23 @@ const dialog = ref(null),
   message = ref(''),
   confirming = ref(false)
 let previous
+let entrance
+const closing = ref(false)
+async function close() {
+  if (busy.value || closing.value) return
+  closing.value = true
+  entrance?.stop()
+  await hideDialog(dialog.value)
+  emit('close')
+}
 onMounted(() => {
   previous = document.activeElement
   dialog.value.showModal()
+  entrance = revealDialog(dialog.value)
   document.body.style.overflow = 'hidden'
 })
 onBeforeUnmount(() => {
+  entrance?.stop()
   document.body.style.overflow = ''
   previous?.focus()
 })
@@ -42,17 +54,17 @@ async function remove() {
     ref="dialog"
     class="product-dialog"
     aria-labelledby="product-title"
-    @cancel.prevent="!busy && emit('close')"
-    @click="!busy && $event.target === dialog && emit('close')"
+    @cancel.prevent="close"
+    @click="$event.target === dialog && close()"
   >
     <div class="dialog-inner">
       <button
         class="close-button"
         :disabled="busy"
         aria-label="Close product details"
-        @click="emit('close')"
+        @click="close"
       >
-        ×
+        <AppIcon name="close" />
       </button>
       <div class="detail-art">
         <img
@@ -79,7 +91,8 @@ async function remove() {
           :disabled="!Number(product.quantity) || busy"
           @click="add"
         >
-          {{ Number(product.quantity) ? 'Add to bag +' : 'Sold out' }}
+          <AppIcon name="bag" />
+          {{ Number(product.quantity) ? 'Add to bag' : 'Sold out' }}
         </button>
         <p v-if="message" class="notice" role="status">
           {{ message }}
@@ -92,8 +105,10 @@ async function remove() {
           ><router-link
             :to="'/products/' + product.id + '/edit'"
             @click="emit('close')"
-            >Edit</router-link
-          ><button :disabled="busy" @click="confirming = true">Delete</button>
+            ><AppIcon name="edit" /> Edit</router-link
+          ><button :disabled="busy" @click="confirming = true">
+            <AppIcon name="trash" /> Delete
+          </button>
         </div>
         <div v-if="confirming" class="delete-confirm">
           <p>

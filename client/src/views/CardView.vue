@@ -2,6 +2,8 @@
 import { computed, ref, onMounted } from 'vue'
 import { cart, removeFromCart, syncCart } from '../cart'
 import { api, money } from '../api'
+import { useAutoAnimate } from '@formkit/auto-animate/vue'
+const [bagList] = useAutoAnimate({ duration: 250 })
 const total = computed(() =>
     cart.reduce((n, p) => n + Number(p.price) * p.count, 0)
   ),
@@ -25,7 +27,9 @@ onMounted(refresh)
 </script>
 <template>
   <section class="bag-page">
-    <router-link class="back-link" to="/">← Keep exploring</router-link>
+    <router-link class="back-link" to="/"
+      ><AppIcon name="left" /> Keep exploring</router-link
+    >
     <p class="eyebrow">YOUR EVERYDAY, ELEVATED</p>
     <h1>A bag of good things.</h1>
     <p v-if="loading" role="status">
@@ -35,7 +39,7 @@ onMounted(refresh)
       {{ error }} <button @click="refresh">Try again</button>
     </div>
     <div v-if="!loading && !error && cart.length" class="bag-layout">
-      <div>
+      <div ref="bagList">
         <article v-for="item in cart" :key="item.id" class="bag-item">
           <img
             :src="item.img_url || '/images/placeholder.svg'"
@@ -52,24 +56,25 @@ onMounted(refresh)
                 :disabled="item.count === 1"
                 :aria-label="'Decrease ' + item.product_name + ' quantity'"
               >
-                −</button
+                <AppIcon name="minus" :size="16" /></button
               ><span>{{ item.count }}</span
               ><button
                 @click="change(item, 1)"
                 :disabled="item.count >= Number(item.quantity)"
                 :aria-label="'Increase ' + item.product_name + ' quantity'"
               >
-                +
+                <AppIcon name="plus" :size="16" />
               </button>
             </div>
           </div>
           <div class="bag-item-end">
             <strong>{{ money(Number(item.price) * item.count) }}</strong
             ><button
+              class="remove-item"
               @click="removeFromCart(item.id)"
               :aria-label="'Remove ' + item.product_name + ' from bag'"
             >
-              Remove
+              <AppIcon name="trash" /> Remove
             </button>
           </div>
         </article>
@@ -90,7 +95,7 @@ onMounted(refresh)
       </aside>
     </div>
     <div v-else-if="!loading && !error" class="empty">
-      <span class="empty-icon">✳</span>
+      <AppIcon name="bag" :size="48" />
       <h2>Room for something good.</h2>
       <p>Your bag is empty. Find an everyday favourite to make it yours.</p>
       <router-link class="button" to="/">Explore the collection →</router-link>
