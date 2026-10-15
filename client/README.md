@@ -1,19 +1,10 @@
-# client
+# Form & Field storefront
 
-## Project setup
-```
-npm install
-```
+See the [repository README](../README.md) for setup, API configuration, verification, and current screenshots.
 
-### Compiles and hot-reloads for development
-```
-npm run serve
+```sh
+npm ci
+npm run dev
 ```
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+The API must also be running. The client opens at http://127.0.0.1:5173.
